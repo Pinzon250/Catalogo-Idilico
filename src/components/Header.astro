@@ -1,0 +1,19 @@
+---
+import isotipo from '../assets/isotipo.svg';
+import logotipo from '../assets/logotipo.svg';
+---
+
+<header class="backdrop-blur-[10px] shadow sticky top-0 z-50">
+  <div class="relative mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center">
+    <!-- Isotipo + Logotipo a la izquierda -->
+    <div class="flex items-center space-x-2">
+      <img src={isotipo.src} alt="Isotipo" class="h-15 pt-2 w-auto" />
+      <img src={logotipo.src} alt="Logotipo" class="h-12 w-auto" />
+    </div>
+
+    <!-- Título centrado -->
+    <h1 class="absolute left-1/2 transform -translate-x-1/2 text-3xl sm:text-5xl font-bold text-primario">
+      Catálogo
+    </h1>
+  </div>
+</header>

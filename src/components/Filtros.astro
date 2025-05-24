@@ -1,0 +1,83 @@
+---
+const categorias = [
+  'Todos',
+  'Camisetas',
+  'Pantalones',
+  'Busos',
+  'Accessorios'
+];
+
+const color = [
+    "Amarillo",
+    "Azul",
+    "Blanco",
+    "Habano",
+    "Morado",
+    "Negro",
+    "Rojo",
+    "Rosa",
+    "Verde"
+
+];
+
+const secciones = ['Hombres', 'Mujeres', 'Unisex'];
+const tamaños = ['S', 'M', 'L', 'XL']
+---
+<section class="flex flex-col md:flex-row gap-6 max-w-7xl mx-auto px-4">
+  <!-- Sidebar -->
+  <aside class="border shadow-2xl rounded-xl p-5 w-full md:w-[400px] backdrop-blur-[15px] space-y-4 gap-4 border-primario">
+    <div class="text-5xl font-bold text-primario">Secciones</div>
+    <form class="space-y-1 font-medium text-3xl text-secundario">
+      {secciones.map(seccion => (
+        <label class="flex items-center gap-2 transition">
+          <input type="checkbox" name="secciones" value={seccion} class="accent-purple-600" />
+          {seccion}
+        </label>
+      ))}
+    </form>
+
+    <div class="border-t border-primario pt-4">
+      <details open>
+        <summary class="font-semibold text-3xl cursor-pointer text-primario">Categorias</summary>
+        <form class="mt-2 space-y-2 text-xl text-secundario">
+          {categorias.map(cat => (
+            <label class="flex items-center gap-2 transition">
+              <input type="checkbox" name="categoria" value={cat} class="accent-purple-600" />
+              {cat}
+            </label>
+          ))}
+        </form>
+      </details>
+    </div>
+
+    <div class="border-t pt-4 border-primario">
+      <details open>
+        <summary class="font-semibold text-3xl cursor-pointer text-primario">Color</summary>
+        <form class="mt-2 space-y-2 text-xl text-secundario">
+            {color.map(col => (
+                <label class="flex item-center gap-2">
+                    <input type="checkbox" name="color" value="col" class="accent-purple-600" />
+                    {col}
+                </label>
+            ))}
+        </form>
+      </details>
+    </div>
+
+    <div class="border-t pt-4 border-primario">
+      <details>
+        <summary class="font-semibold cursor-pointer text-3xl text-primario">Tamaños</summary>
+        <form class="mt-2 space-y-2 text-xl text-secundario">
+            {tamaños.map(tam => (
+                <label class="flex item-center gap-2">
+                    <input type="checkbox" name="tamaños" value="tam" class="accent-purple-600" />
+                    {tam}
+                </label>
+            ))}
+        </form>
+      </details>
+    </div>
+  </aside>
+
+</section>
+
