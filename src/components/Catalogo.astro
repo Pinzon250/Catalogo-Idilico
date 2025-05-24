@@ -13,10 +13,45 @@ interface producto {
 
 import Filtros from "./Filtros.astro";
 import Fondo from "./Fondo.astro";
+import Modal from "./Modal.astro";
 
-const sheetdbApiUrl = import.meta.env.PUBLIC_SHEETDB_API;
-const response = await fetch(sheetdbApiUrl);
-const productos: producto[] = await response.json();
+const sheetApiUrl = import.meta.env.PUBLIC_SHEETDB_API;
+
+const response = await fetch(sheetApiUrl);
+const data = await response.json();
+
+if (!data.values) {
+  throw new Error("No se encontraron datos en la hoja");
+}
+
+// Convertir filas en objetos
+const headers = data.values[0];
+const rows = data.values.slice(1);
+
+const productos: producto[] = rows.map((row: Array<string | undefined>) => {
+  const producto: producto = {
+    Id: "",
+    Nombre: "",
+    Secciones: "",
+    Categoria: "",
+    Color: "",
+    Tamaño: "",
+    Precio: "",
+    Stock: "",
+    Imagenes: ""
+  };
+
+  headers.forEach((header: string, index: number) => {
+    const key = header as keyof producto;
+    if (key in producto) {
+      producto[key] = row[index] || "";
+    }
+  });
+
+  return producto;
+});
+
+
 ---
 
 <html lang="es">
@@ -28,17 +63,12 @@ const productos: producto[] = await response.json();
   <body>
     <Fondo />
     <main class="w-450 mx-auto px-4 sm:px-6 lg:px-8">
-      <div
-        class="flex flex-wrap md:flex-nowrap items-start justify-between pt-10 gap-4 mb-8"
-      >
-        <!-- Filtros -->
+      <div class="flex flex-wrap md:flex-nowrap items-start justify-between pt-10 gap-4 mb-8">
         <div class="w-full md:w-1/4">
           <Filtros />
         </div>
 
-        <!-- Productos con barra de búsqueda -->
         <div class="w-full md:w-3/4">
-          <!-- Barra de búsqueda -->
           <div class="mb-4">
             <input
               type="text"
@@ -49,67 +79,54 @@ const productos: producto[] = await response.json();
           </div>
 
           <!-- Grid de productos filtrados -->
-          <div
-            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mt-10"
-          >
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mt-10">
             {
               productos.map((producto) => (
                 <div
-                  class="producto cursor-pointer hover:scale-101 border-primario hover:shadow-2xl shadow-xl transition backdrop-blur-[10px] border rounded-lg shadow p-4 text-center"
+                  class="producto cursor-pointer hover:scale-101 border-primario hover:shadow-2xl shadow-xl transition backdrop-blur-[10px] border rounded-lg p-4 text-center"
                   data-nombre={producto.Nombre}
-                  data-categoria={
-                    Array.isArray(producto.Categoria)
-                      ? producto.Categoria.join(",")
-                      : producto.Categoria
-                  }
-                  data-color={
-                    Array.isArray(producto.Color)
-                      ? producto.Color.join(",")
-                      : producto.Color
-                  }
-                  data-tamaño={
-                    Array.isArray(producto.Tamaño)
-                      ? producto.Tamaño.join(",")
-                      : producto.Tamaño
-                  }
+                  data-precio={producto.Precio}
+                  data-color={producto.Color}
+                  data-tamaño={producto.Tamaño}
+                  data-imagenes={producto.Imagenes}
                 >
                   <img
-                    src={producto.Imagenes}
+                    src={(() => {
+                      try {
+                        const imagenes = JSON.parse(producto.Imagenes);
+                        const primerColor = producto.Color.split(",")[0].trim();
+                        return imagenes[primerColor] || "/placeholder.png";
+                      } catch (e) {
+                        console.error("Error al parsear Imagenes:", e);
+                        return "/placeholder.png";
+                      }
+                    })()}
                     alt={producto.Nombre}
-                    class="w-full h-90 object-cover mb-4 rounded-xl mask-y-from-98% mask-y-to-100% mask-x-from-98% mask-x-to-100%"
+                    class="rounded-lg w-full h-90 object-cover"
                   />
-                  <h2 class="text-2xl font-semibold text-primario">
-                    {producto.Nombre}
-                  </h2>
-                  <p class="text-xl text-gray-500 text-secundario">
-                    {producto.Precio}
-                  </p>
+                  <h2 class="text-3xl font-semibold text-primario">{producto.Nombre}</h2>
+                  <p class="text-xl text-gray-500 text-secundario">{producto.Precio}</p>
                 </div>
               ))
             }
           </div>
-          <!-- 🔥 Paginación -->
+
           <div class="flex justify-center items-center mt-8 gap-4">
-            <button
-              id="prev-page"
-              class="px-4 py-2 text-primario bg-secundario rounded hover:bg-terciario transition"
-            >
+            <button id="prev-page" class="px-4 py-2 text-primario bg-secundario rounded hover:bg-terciario transition">
               Anterior
             </button>
-            <span id="page-info" class="text-primario font-semibold text-lg">
-              Página 1
-            </span>
-            <button
-              id="next-page"
-              class="px-4 py-2 text-primario bg-secundario rounded hover:bg-terciario transition"
-            >
+            <span id="page-info" class="text-primario font-semibold text-lg">Página 1</span>
+            <button id="next-page" class="px-4 py-2 text-primario bg-secundario rounded hover:bg-terciario transition">
               Siguiente
             </button>
           </div>
         </div>
       </div>
     </main>
+    <Modal />
   </body>
-  <script src="/src/js/filtros.js"></script>
-  <script src="/src/js/paginacion.js" type="module"></script>
 </html>
+
+<script src="/src/js/filtros.js"></script>
+<script src="/src/js/paginacion.js" type="module"></script>
+<script src="/src/js/modal.js" type="module"></script>
