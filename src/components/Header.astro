@@ -3,17 +3,26 @@ import isotipo from '../assets/isotipo.svg';
 import logotipo from '../assets/logotipo.svg';
 ---
 
-<header class="backdrop-blur-[10px] bg-white/80 shadow sticky top-0 z-50">
-  <div class="relative mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center">
-    <!-- Isotipo + Logotipo a la izquierda -->
-    <div class="flex items-center space-x-2">
-      <img src={isotipo.src} alt="Isotipo" class="h-15 pt-2 w-auto" />
-      <img src={logotipo.src} alt="Logotipo" class="h-12 w-auto" />
-    </div>
+<header id="header-navbar" class="backdrop-blur-[10px] bg-white/80 shadow sticky top-0 z-50">
+  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    
+    <!-- Botón hamburguesa a la izquierda -->
+    <button id="toggle-filtros" class="md:hidden bg-primario text-white p-2 rounded shadow-lg">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
 
     <!-- Título centrado -->
-    <h1 class="absolute left-1/2 transform -translate-x-1/2 text-3xl sm:text-5xl font-bold text-primario">
+    <h1 class="text-3xl sm:text-4xl md:text-4xl font-bold text-primario text-center flex-1">
       Catálogo
     </h1>
+
+    <!-- Logos a la derecha -->
+    <div class="flex items-center gap-2">
+      <img src={isotipo.src} alt="Isotipo" class="h-8 sm:h-10 w-auto" />
+      <img src={logotipo.src} alt="Logotipo" class="h-6 sm:h-8 w-auto" />
+    </div>
+
   </div>
 </header>

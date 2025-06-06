@@ -38,7 +38,7 @@ const productos: producto[] = rows.map((row: Array<string | undefined>) => {
     Tamaño: "",
     Precio: "",
     Stock: "",
-    Imagenes: ""
+    Imagenes: "",
   };
 
   headers.forEach((header: string, index: number) => {
@@ -50,8 +50,6 @@ const productos: producto[] = rows.map((row: Array<string | undefined>) => {
 
   return producto;
 });
-
-
 ---
 
 <html lang="es">
@@ -60,30 +58,34 @@ const productos: producto[] = rows.map((row: Array<string | undefined>) => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Catálogo</title>
   </head>
-  <body>
-    <Fondo />
-    <main class="w-450 mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-wrap md:flex-nowrap items-start justify-between pt-10 gap-4 mb-8">
+  <body class="flex flex-col min-h-screen">
+    <main class="w-full max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div
+        class="flex flex-wrap md:flex-nowrap items-start pt-10 gap-4 mb-8"
+      >
         <div class="w-full md:w-1/4">
           <Filtros />
         </div>
 
-        <div class="w-full md:w-3/4">
+        <div class="w-full md:mx-10">
           <div class="mb-4">
             <input
               type="text"
               placeholder="Buscar producto..."
               x-model="search"
-              class="w-full border border-primario text-primario px-4 backdrop-blur-[15px] py-2 rounded shadow focus:outline-none"
+              class="w-full border border-primario text-primario px-4 py-2 rounded shadow focus:outline-none text-base sm:text-lg backdrop-blur-[15px]"
             />
           </div>
 
-          <!-- Grid de productos filtrados -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mt-10">
+          <div
+            class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-8"
+          >
             {
               productos.map((producto) => (
                 <div
-                  class="producto cursor-pointer hover:scale-101 border-primario hover:shadow-2xl shadow-xl transition backdrop-blur-[10px] border rounded-lg p-4 text-center"
+                  class="producto cursor-pointer hover:scale-101 border-primario hover:shadow-2xl shadow-xl md:w-70 transition backdrop-blur-[10px] border rounded-lg p-4 text-center"
+                  data-seccion={producto.Secciones}
+                  data-categoria={producto.Categoria}
                   data-nombre={producto.Nombre}
                   data-precio={producto.Precio}
                   data-color={producto.Color}
@@ -102,27 +104,40 @@ const productos: producto[] = rows.map((row: Array<string | undefined>) => {
                       }
                     })()}
                     alt={producto.Nombre}
-                    class="rounded-lg w-full h-90 object-cover"
+                    class="rounded-lg w-full object-cover h-70 sm:h-72 lg:h-90"
                   />
-                  <h2 class="text-3xl font-semibold text-primario">{producto.Nombre}</h2>
-                  <p class="text-xl text-gray-500 text-secundario">{producto.Precio}</p>
+                  <h2 class="text-2xl font-semibold text-primario">
+                    {producto.Nombre}
+                  </h2>
+                  <p class="text-xl text-gray-500 text-secundario">
+                    {producto.Precio}
+                  </p>
                 </div>
               ))
             }
           </div>
 
           <div class="flex justify-center items-center mt-8 gap-4">
-            <button id="prev-page" class="px-4 py-2 text-primario bg-secundario rounded hover:bg-terciario transition">
+            <button
+              id="prev-page"
+              class="px-4 py-2 text-primario bg-secundario rounded hover:bg-terciario transition"
+            >
               Anterior
             </button>
-            <span id="page-info" class="text-primario font-semibold text-lg">Página 1</span>
-            <button id="next-page" class="px-4 py-2 text-primario bg-secundario rounded hover:bg-terciario transition">
+            <span id="page-info" class="text-primario font-semibold text-lg"
+              >Página 1</span
+            >
+            <button
+              id="next-page"
+              class="px-4 py-2 text-primario bg-secundario rounded hover:bg-terciario transition"
+            >
               Siguiente
             </button>
           </div>
         </div>
       </div>
     </main>
+
     <Modal />
   </body>
 </html>
