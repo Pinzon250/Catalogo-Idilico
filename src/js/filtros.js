@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const categorias = getCheckedValues("categoria");
     const colores = getCheckedValues("color");
     const tamaños = getCheckedValues("tamaño");
-    const secciones = getCheckedValues("seccion"); // 💡 Nuevo: secciones
+    const secciones = getCheckedValues("seccion");
     const terminoBusqueda = searchInput.value.toLowerCase();
 
     productos.forEach(producto => {
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const categoria = producto.dataset.categoria || "";
       const color = producto.dataset.color || "";
       const tamaño = producto.dataset.tamaño || "";
-      const seccion = producto.dataset.seccion || ""; // 💡 Nuevo: seccion
+      const seccion = producto.dataset.seccion || "";
 
       const coincideBusqueda = nombre.includes(terminoBusqueda);
       const coincideCategoria = categorias.length === 0 || categorias.some(cat => categoria.includes(cat));

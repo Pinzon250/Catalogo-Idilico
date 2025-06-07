@@ -4,7 +4,7 @@ const categorias = [
   'Camisetas',
   'Pantalones',
   'Busos',
-  'Accessorios'
+  'Accesorios'
 ];
 
 const color = [
@@ -41,7 +41,7 @@ const tamaños = ['S', 'M', 'L', 'XL'];
         <form class="mt-2 space-y-2 text-lg md:text-xl text-secundario">
           {categorias.map(cat => (
             <label class="flex items-center gap-2 transition mb-2">
-              <input type="checkbox" name="categoria" value={cat} class="accent-purple-600 w-5 h-5" />
+              <input type="checkbox" name="categoria" value={cat} class="accent-orange-600 w-5 h-5" />
               {cat}
             </label>
           ))}

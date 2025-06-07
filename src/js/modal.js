@@ -7,7 +7,8 @@ const coloresCSS = {
   "Morado": "#800080",
   "Negro": "#000000",
   "Rojo": "#FF0000",
-  "Verde": "#008000"
+  "Verde": "#008000",
+  "Rosado": "#FF94AC"
 };
 
 document.addEventListener("DOMContentLoaded", () => {
